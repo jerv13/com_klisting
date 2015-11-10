@@ -10,12 +10,12 @@
 // No direct access.
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.modeladmin');
+require_once __DIR__ . '/../../com_content/models/article.php';
 
 /**
  * Klisting model.
  */
-class KlistingModelListing extends JModelAdmin
+class KlistingModelListing extends ContentModelArticle
 {
 	/**
 	 * @var		string	The prefix to use with controller messages.
@@ -23,103 +23,75 @@ class KlistingModelListing extends JModelAdmin
 	 */
 	protected $text_prefix = 'COM_KLISTING';
 
+    /**
+     * Method to get a form object.
+     *
+     * @param   string   $name     The name of the form.
+     * @param   string   $source   The form source. Can be XML string if file flag is set to false.
+     * @param   array    $options  Optional array of options for the form creation.
+     * @param   boolean  $clear    Optional argument to force load a new form.
+     * @param   string   $xpath    An optional xpath to search for the fields.
+     *
+     * @return  mixed  JForm object on success, False on error.
+     *
+     * @see     JForm
+     * @since   12.2
+     */
+    protected function loadForm($name, $source = null, $options = array(), $clear = false, $xpath = false)
+    {
+        //var_dump($name, $source = null, $options = array(), $clear = false, $xpath = false);die;
+        $source = 'listing';
 
-	/**
-	 * Returns a reference to the a Table object, always creating it.
-	 *
-	 * @param	type	The table type to instantiate
-	 * @param	string	A prefix for the table class name. Optional.
-	 * @param	array	Configuration array for model. Optional.
-	 * @return	JTable	A database object
-	 * @since	1.6
-	 */
-	public function getTable($type = 'Listing', $prefix = 'KlistingTable', $config = array())
-	{
-		return JTable::getInstance($type, $prefix, $config);
-	}
+        // Handle the optional arguments.
+        $options['control'] = JArrayHelper::getValue($options, 'control', false);
 
-	/**
-	 * Method to get the record form.
-	 *
-	 * @param	array	$data		An optional array of data for the form to interogate.
-	 * @param	boolean	$loadData	True if the form is to load its own data (default case), false if not.
-	 * @return	JForm	A JForm object on success, false on failure
-	 * @since	1.6
-	 */
-	public function getForm($data = array(), $loadData = true)
-	{
-		// Initialise variables.
-		$app	= JFactory::getApplication();
+        // Create a signature hash.
+        $hash = md5($source . serialize($options));
 
-		// Get the form.
-		$form = $this->loadForm('com_klisting.listing', 'listing', array('control' => 'jform', 'load_data' => $loadData));
-        
-        
-		if (empty($form)) {
-			return false;
-		}
+        // Check if we can use a previously loaded form.
+        if (isset($this->_forms[$hash]) && !$clear)
+        {
+            return $this->_forms[$hash];
+        }
 
-		return $form;
-	}
+        // Get the form.
+        JForm::addFormPath(JPATH_COMPONENT . '/models/forms');
+        JForm::addFieldPath(JPATH_COMPONENT . '/models/fields');
+        JForm::addFormPath(JPATH_COMPONENT . '/model/form');
+        JForm::addFieldPath(JPATH_COMPONENT . '/model/field');
 
-	/**
-	 * Method to get the data that should be injected in the form.
-	 *
-	 * @return	mixed	The data for the form.
-	 * @since	1.6
-	 */
-	protected function loadFormData()
-	{
-		// Check the session for previously entered form data.
-		$data = JFactory::getApplication()->getUserState('com_klisting.edit.listing.data', array());
+        try
+        {
+            $form = JForm::getInstance($name, $source, $options, false, $xpath);
 
-		if (empty($data)) {
-			$data = $this->getItem();
-            
-		}
+            if (isset($options['load_data']) && $options['load_data'])
+            {
+                // Get the data for the form.
+                $data = $this->loadFormData();
+            }
+            else
+            {
+                $data = array();
+            }
 
-		return $data;
-	}
+            // Allow for additional modification of the form, and events to be triggered.
+            // We pass the data because plugins may require it.
+            $this->preprocessForm($form, $data);
 
-	/**
-	 * Method to get a single record.
-	 *
-	 * @param	integer	The id of the primary key.
-	 *
-	 * @return	mixed	Object on success, false on failure.
-	 * @since	1.6
-	 */
-	public function getItem($pk = null)
-	{
-		if ($item = parent::getItem($pk)) {
+            // Load the data into the form after the plugins have operated.
+            $form->bind($data);
+        }
+        catch (Exception $e)
+        {
+            $this->setError($e->getMessage());
 
-			//Do any procesing on fields here if needed
+            return false;
+        }
 
-		}
+        // Store the form for later.
+        $this->_forms[$hash] = $form;
 
-		return $item;
-	}
-
-	/**
-	 * Prepare and sanitise the table prior to saving.
-	 *
-	 * @since	1.6
-	 */
-	protected function prepareTable($table)
-	{
-		jimport('joomla.filter.output');
-
-		if (empty($table->id)) {
-
-			// Set ordering to the last item if not set
-			if (@$table->ordering === '') {
-				$db = JFactory::getDbo();
-				$db->setQuery('SELECT MAX(ordering) FROM listing');
-				$max = $db->loadResult();
-				$table->ordering = $max+1;
-			}
-
-		}
-	}
+        return $form;
+    }
 
 }

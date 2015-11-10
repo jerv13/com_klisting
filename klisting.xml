@@ -50,7 +50,7 @@
                   img="components/com_klisting/assets/images/s_listings.png"
                   alt="Klisting/Listings">COM_KLISTING_TITLE_LISTINGS
             </menu>
-            <menu link="option=com_klisting&amp;view=listing&amp;layout=add"
+            <menu link="option=com_klisting&amp;view=listing&amp;task=listing.add"
                   view="listing"
                   img="components/com_klisting/assets/images/s_listings.png"
                   alt="Klisting/Listing">COM_KLISTING_TITLE_LISTING

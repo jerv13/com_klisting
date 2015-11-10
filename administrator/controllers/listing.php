@@ -17,18 +17,8 @@ jimport('joomla.application.component.controllerform');
  */
 class KlistingControllerListing extends JControllerForm
 {
-
     function __construct() {
         $this->view_list = 'listings';
         parent::__construct();
     }
-
-    public function add() {
-        echo 'here'; die;
-    }
-
-    public function edit() {
-        echo 'here'; die;
-    }
-
 }
