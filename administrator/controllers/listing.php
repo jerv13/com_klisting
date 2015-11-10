@@ -23,4 +23,12 @@ class KlistingControllerListing extends JControllerForm
         parent::__construct();
     }
 
+    public function add() {
+        echo 'here'; die;
+    }
+
+    public function edit() {
+        echo 'here'; die;
+    }
+
 }
