@@ -94,4 +94,33 @@ class KlistingModelListing extends ContentModelArticle
         return $form;
     }
 
+    /**
+     * Method to save the form data.
+     *
+     * @param   array  $data  The form data.
+     *
+     * @return  boolean  True on success.
+     *
+     * @since   1.6
+     */
+    public function save($data)
+    {
+        $data['zip'] = JRequest::getVar('zip', null, 'files', 'array');
+
+        var_dump($data);
+
+
+        echo('<pre>');
+
+        debug_print_backtrace();die;
+        throw new \Exception('test');
+
+        parent::save($data);
+    }
+
+    protected function processZipFile()
+    {
+
+    }
+
 }

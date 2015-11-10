@@ -112,11 +112,28 @@ $document->addStyleSheet('components/com_klisting/assets/css/klisting.css');
                         </div>
                     </div>
 
+                    <div class="control-group">
+                        <div class="control-label">
+                            <label id="jform_date-lbl"
+                                   for="jform_date-"
+                                   class="hasTooltip"
+                                   title=""
+                                   data-placement="bottom"
+                                   data-original-title="">
+                                   Date</label>
+                        </div>
+                        <div class="controls">
+                            <input type="date"
+                                   name="jform[date]"
+                                   id="jform_date"
+                                   value="">
+                        </div>
+                    </div>
 
                     <div class="control-group">
                         <div class="control-label">
-                            <label id="jform_alias-lbl"
-                                   for="jform_alias"
+                            <label id="jform_zip-lbl"
+                                   for="jform_zip"
                                    class="hasTooltip"
                                    title=""
                                    data-placement="bottom"

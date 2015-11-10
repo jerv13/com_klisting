@@ -1,46 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
-	<fieldset>
+    <fieldset>
 
-		<field name="title" type="text" label="JGLOBAL_TITLE"
-			   description="JFIELD_TITLE_DESC"
-			   class="input-xxlarge input-large-text"
-			   size="40"
-			   required="true" />
+        <field name="title" type="text" label="JGLOBAL_TITLE"
+               description="JFIELD_TITLE_DESC"
+               class="input-xxlarge input-large-text"
+               size="40"
+               required="true"/>
 
-		<field name="alias" type="text" label="JFIELD_ALIAS_LABEL"
-			   description="JFIELD_ALIAS_DESC"
-			   hint="JFIELD_ALIAS_PLACEHOLDER"
-			   size="40" />
+        <field name="alias" type="text" label="JFIELD_ALIAS_LABEL"
+               description="JFIELD_ALIAS_DESC"
+               hint="JFIELD_ALIAS_PLACEHOLDER"
+               size="40"/>
 
-		<field name="articletext" type="editor"
-			   label="COM_CONTENT_FIELD_ARTICLETEXT_LABEL" description="COM_CONTENT_FIELD_ARTICLETEXT_DESC"
-			   filter="JComponentHelper::filterText" buttons="true" />
+        <field name="date"
+               type="date"
+               label="Date"
+               description="Date"
+                />
 
-		<field name="state" type="list" label="JSTATUS"
-			   description="JFIELD_PUBLISHED_DESC" class="chzn-color-state"
-			   filter="intval" size="1" default="1"
-				>
-			<option value="1">
-				JPUBLISHED</option>
-			<option value="0">
-				JUNPUBLISHED</option>
-			<option value="2">
-				JARCHIVED</option>
-			<option value="-2">
-				JTRASHED</option>
-		</field>
+        <field name="zip"
+               type="file"
+               label="Zip File"
+               description="Zip File"
+                />
 
-		<field name="publish_up" type="calendar"
-			   label="COM_CONTENT_FIELD_PUBLISH_UP_LABEL" description="COM_CONTENT_FIELD_PUBLISH_UP_DESC"
-			   format="%Y-%m-%d %H:%M:%S" size="22"
-			   filter="user_utc" />
+        <field name="articletext" type="editor"
+               label="COM_CONTENT_FIELD_ARTICLETEXT_LABEL"
+               description="COM_CONTENT_FIELD_ARTICLETEXT_DESC"
+               filter="JComponentHelper::filterText"
+               buttons="true"/>
 
-		<field name="publish_down" type="calendar"
-			   label="COM_CONTENT_FIELD_PUBLISH_DOWN_LABEL" description="COM_CONTENT_FIELD_PUBLISH_DOWN_DESC"
-			   format="%Y-%m-%d %H:%M:%S" size="22"
-			   filter="user_utc" />
+        <field name="state"
+               type="list"
+               label="JSTATUS"
+               description="JFIELD_PUBLISHED_DESC"
+               class="chzn-color-state"
+               filter="intval"
+               size="1"
+               default="1"
+                >
+            <option value="1">
+                JPUBLISHED
+            </option>
+            <option value="0">
+                JUNPUBLISHED
+            </option>
+            <option value="2">
+                JARCHIVED
+            </option>
+            <option value="-2">
+                JTRASHED
+            </option>
+        </field>
 
-	</fieldset>
+        <field name="publish_up" type="calendar"
+               label="COM_CONTENT_FIELD_PUBLISH_UP_LABEL"
+               description="COM_CONTENT_FIELD_PUBLISH_UP_DESC"
+               format="%Y-%m-%d %H:%M:%S" size="22"
+               filter="user_utc"/>
+
+        <field name="publish_down" type="calendar"
+               label="COM_CONTENT_FIELD_PUBLISH_DOWN_LABEL"
+               description="COM_CONTENT_FIELD_PUBLISH_DOWN_DESC"
+               format="%Y-%m-%d %H:%M:%S" size="22"
+               filter="user_utc"/>
+
+    </fieldset>
 
 </form>
